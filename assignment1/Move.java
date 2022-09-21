@@ -1,10 +1,15 @@
 package assignment1;
-enum MoveType{
-    Tik
-}
 
 public class Move {
     private int playerno;
-    private MoveType moveType;
+    private String piece;
     private int round;
+    public int m;
+    public int n;
+
+    public Move(int playerno, String piece, int roundno){
+        this.playerno = playerno;
+        this.piece = piece;
+        this.round = roundno;
+    }
 }

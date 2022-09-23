@@ -1,15 +1,15 @@
 package assignment1;
-
+import java.util.HashMap;
 public class TikTakToe extends Boardgame{
 
     public TikTakToe() {
-        super(2, 3, 3, true);
-        //TODO Auto-generated constructor stub
-    }
-
-    @Override
-    public void runGame(int gameCount) {
-        // TODO Auto-generated method stub
+        super(new Player[]{
+            new Player(0, new HashMap<>(){{
+                put("X", Integer.MAX_VALUE);
+                put("O", Integer.MAX_VALUE);
+            }}),
+            new Player(1, new HashMap<>())
+        }, 3, 3, true);
         
     }
     

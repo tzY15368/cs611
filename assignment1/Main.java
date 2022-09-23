@@ -13,7 +13,7 @@ public class Main {
         System.out.println("enter your game length");
         int gameCount = s.nextInt();
         System.out.println(String.format("Got %s for %d games", game.getClass().getSimpleName(), gameCount));
-        //game.runGame(gameCount);
+        game.runGame(gameCount);
         System.out.println("end of game, bye");
     }
 }

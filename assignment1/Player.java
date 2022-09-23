@@ -4,14 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
-    int id;
-    Map<Piece, Integer> pieces;
-    public Player(int id, Map<Piece, Integer> pieces){
+    private int id;
+    private Map<String, Integer> pieces;
+
+    public Player(int id, Map<String, Integer> pieces) {
         this.pieces = pieces;
         this.id = id;
     }
 
-    public Move getPiece(String piece, int roundno) throws Exception{
+    public Move getPiece() throws Exception{
         if(!this.pieces.containsKey(piece)){
             throw new Exception("player: invalid piece:"+piece);
         }
@@ -20,6 +21,9 @@ public class Player {
             throw new Exception("player: no more piece "+piece+" available");
         }
         this.pieces.put(piece, piece_cnt-1);
-        return new Move(this.id, piece, roundno);
+        String in = Prompt.input("input: [piece] [m] [n]");
+        Move mv = new Move(this.id, piece, roundno, new Point());
+
+        return mv;
     }
 }

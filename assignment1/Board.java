@@ -47,7 +47,7 @@ class Board {
                 Move[] mvs = new Move[shape.m];
                 Move[] mvs2 = new Move[shape.m];
                 mvs[0] = moves[0][0];
-                mvs2[0] = moves[0][shape.m-1];
+                mvs2[0] = moves[0][shape.m-1+diff];
                 for(int i=1;i<shape.m;i++){
                     mvs[i] = moves[i][i+diff];
                     mvs2[i] = moves[i][shape.m-1-i+diff];
@@ -56,14 +56,15 @@ class Board {
                 res.add(mvs2);
             }
         } else {
+            // m > n
             for(int diff=0;diff<=(shape.m-shape.n);diff++){
                 Move[] mvs = new Move[shape.n];
                 Move[] mvs2 = new Move[shape.n];
-                mvs[0] = moves[0][0];
-                mvs2[0] = moves[0][shape.n-1];
-                for(int i=1;i<shape.n;i++){
-                    mvs[i] = moves[i+diff][i];
-                    mvs2[i] = moves[shape.n-1-i+diff][i];
+                mvs[0] = moves[diff][0];
+                mvs2[0] = moves[diff][shape.n-1];
+                for(int i=1;i<shape.n;i++) {
+                    mvs[i] = moves[diff + i][i];
+                    mvs2[i] = moves[diff + i][shape.n - 1 - i];
                 }
                 res.add(mvs);
                 res.add(mvs2);

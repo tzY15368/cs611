@@ -9,11 +9,6 @@ public class Main {
         Scanner s = new Scanner(System.in);
         int g = s.nextInt();
         Boardgame game = g==1?new TikTakToe() : new OrderNChaos();
-        
-        System.out.println("enter your game length");
-        int gameCount = s.nextInt();
-        System.out.println(String.format("Got %s for %d games", game.getClass().getSimpleName(), gameCount));
-        game.runGame(gameCount);
-        System.out.println("end of game, bye");
+        game.runGame();
     }
 }

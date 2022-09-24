@@ -34,6 +34,10 @@ class Board {
         this.moves = new Move[moves.length][moves[0].length];
     }
 
+    public boolean getResizable(){
+        return this.resizable;
+    }
+
     public Pair getShape(){
         return new Pair(moves.length, moves[0].length);
     }

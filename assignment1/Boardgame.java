@@ -3,13 +3,24 @@ package assignment1;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+interface Playable {
+    Move getPiece() throws Exception;
+    void win();
+    int getWin();
+    int getId();
+    String getName();
+    String getPrintName();
+}
+
 public abstract class Boardgame {
     protected Board board;
-    private Player[] players;
+    private Playable[] players;
     private int roundno;
     private int gameCount;
+    protected final int STATE_DRAW = -2;
+    protected final int STATE_CONTINUE = -1;
 
-    public Boardgame(Player[] players, int x, int y, boolean resizable){
+    public Boardgame(Playable[] players, int x, int y, boolean resizable){
         if(players.length < 2){
             System.out.println("invalid players"+players.length);
             System.exit(-1);
@@ -17,6 +28,32 @@ public abstract class Boardgame {
         this.board = new Board(x,y, resizable);
         this.players = players;
     }
+
+    private int evalState(){
+        int c = this.getState();
+        if(c!=STATE_DRAW || !board.getResizable()){
+            return c;
+        }
+        // attempt to resize the board
+        try {
+            Scanner s = Prompt.input("Draw, enter [] [] to resize or any other to end");
+            int nm = s.nextInt();
+            int nn = s.nextInt();
+            boolean res = board.resizeBoard(nm, nn);
+            if(!res){
+                Prompt.say("board resize failed");
+                return STATE_DRAW;
+            } else {
+                Prompt.say("board size is now "+board.getShape() );
+                return STATE_CONTINUE;
+            }
+        }catch (InputMismatchException ime){
+            Prompt.say("invalid input");
+            return STATE_DRAW;
+        }
+    }
+
+    public abstract int getState();
 
     public void printBoard(){
         try {
@@ -32,11 +69,9 @@ public abstract class Boardgame {
         Prompt.say(board.toString());
     }
 
-    public abstract int evalState();
-
     public int runRound(){
         this.roundno++;
-        for(Player player : this.players){
+        for(Playable player : this.players){
             while(true){
                 try {
                     //Prompt.say(board.toString());
@@ -51,7 +86,7 @@ public abstract class Boardgame {
                     printBoard();
                     int winner = this.evalState();
 
-                    if(winner!=-1){
+                    if(winner!=STATE_CONTINUE){
                         return winner;
                     }
                     break;
@@ -62,14 +97,14 @@ public abstract class Boardgame {
                 }
             }
         }
-        return -1;
+        return STATE_CONTINUE;
     }
 
     public String gameSummary(){
         StringBuilder s = new StringBuilder();
         s.append(String.format("Summary:\n\tOut of %d rounds,", this.gameCount));
-        for(Player p : this.players){
-            s.append(String.format("\nPlayer[%d] won [%d] games; ", p.getId(), p.getWin()));
+        for(Playable p : this.players){
+            s.append(String.format("\n %s won [%d] games; ", p.getPrintName(), p.getWin()));
         }
         return s.toString();
     }
@@ -82,24 +117,31 @@ public abstract class Boardgame {
             Prompt.say("Initialized board:");
             board.reset();
             while(true){
-                int winner = this.runRound();
-                if(winner!=-1){
-                    if(winner==-2){
+                int state = this.runRound();
+                switch(state){
+                    case STATE_CONTINUE:
+                        Prompt.say("next round..");
+                        break;
+                    case STATE_DRAW:
                         Prompt.say("Game ended with a draw");
-                    } else {
-                        Prompt.say("winner is "+winner);
-                        players[winner].win();
-                    }
-                    break;
+                        break;
+                    default:
+                        for(Playable player : players){
+                            if(player.getId()==state){
+                                player.win();
+                                Prompt.say("winner is "+player.getPrintName());
+                                break;
+                            }
+                        }
+
                 }
-                Prompt.say("next round..");
+                if(state!=STATE_CONTINUE) break;
             }
             gameCount++;
 
             Scanner s = Prompt.input("enter Y to play next game");
-            s.reset();
             String in = s.nextLine().strip();
-            if(!in.equals(new String("Y"))){
+            if(!in.equals("Y")){
                 Prompt.say(this.gameSummary());
                 Prompt.say("Bye.");
                 return;

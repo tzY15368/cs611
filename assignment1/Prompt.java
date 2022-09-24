@@ -6,6 +6,7 @@ class Prompt {
     
     public static Scanner input(String msg){
         System.out.println(msg+": ");
+        reset();
         return s;
     }
 

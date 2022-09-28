@@ -27,23 +27,24 @@ public abstract class Boardgame {
         if (c != STATE_DRAW || !board.getResizable()) {
             return c;
         }
+        return c;
         // attempt to resize the board
-        try {
-            Scanner s = Prompt.input("Draw, enter [] [] to resize or any other to end");
-            int nm = s.nextInt();
-            int nn = s.nextInt();
-            boolean res = board.resizeBoard(nm, nn);
-            if (!res) {
-                Prompt.say("board resize failed");
-                return STATE_DRAW;
-            } else {
-                Prompt.say("board size is now " + board.getShape());
-                return STATE_CONTINUE;
-            }
-        } catch (InputMismatchException ime) {
-            Prompt.say("invalid input");
-            return STATE_DRAW;
-        }
+        // try {
+        //     Scanner s = Prompt.input("Draw, enter [] [] to resize or any other to end");
+        //     int nm = s.nextInt();
+        //     int nn = s.nextInt();
+        //     boolean res = board.resizeBoard(nm, nn);
+        //     if (!res) {
+        //         Prompt.say("board resize failed");
+        //         return STATE_DRAW;
+        //     } else {
+        //         Prompt.say("board size is now " + board.getShape());
+        //         return STATE_CONTINUE;
+        //     }
+        // } catch (InputMismatchException ime) {
+        //     Prompt.say("invalid input");
+        //     return STATE_DRAW;
+        // }
     }
 
     public abstract int getState();
@@ -106,6 +107,29 @@ public abstract class Boardgame {
         Prompt.say("Welcome to " + this.getClass().getSimpleName() + "...");
         while (true) {
             Prompt.say("---------------------------");
+            try {
+                if(board.getResizable()){
+                    Scanner s = Prompt.input("enter [int] [int] to resize or any string to stick to default" + board.getShape());
+                    Prompt.say("new m and new n must be greater or equal to original (default)");
+                    int nm = s.nextInt();
+                    int nn = s.nextInt();
+                    boolean res = board.resizeBoard(nm, nn);
+                    if (!res) {
+                        Prompt.say("board resize failed, shape: " + board.getShape());
+                    } else {
+                        Prompt.say("board size is now " + board.getShape());
+                    }
+                }   
+                
+            } catch (InputMismatchException ime) {
+                Prompt.say("invalid input, fallingback to default" + board.getShape());
+            }
+            try {
+                Prompt.say("starting in 1 sec");
+                Thread.sleep(1000);
+            } catch (InterruptedException ie){
+                System.exit(2);
+            }
             Prompt.say("Initialized board:");
             board.reset();
             while (true) {

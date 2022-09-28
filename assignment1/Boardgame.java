@@ -1,4 +1,4 @@
-package assignment1;
+//package assignment1;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

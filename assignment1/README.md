@@ -72,7 +72,7 @@ U79759599
 
 ----
 
-1. `unzip cs611 && cd cs611 && cd assignment1`
+1. `unzip cs611 && cd cs611/assignment1`
 2. `javac -d ./bin *.java`
 3. `java -cp ./bin Main`
 

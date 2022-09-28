@@ -80,6 +80,10 @@ U79759599
 
 ----
 
+  Note: input format is different for tiktaktoe and ordern'chaos, please read the input prompt for accurate information*
+
+### TikTakToe example
+
 ```bash
 
 choose your game, 1 for tiktaktoe and 2 for orderNchaos

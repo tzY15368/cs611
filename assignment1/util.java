@@ -2,6 +2,7 @@
 
 import java.util.Scanner;
 
+// wrapper data class for board.shape
 class Pair {
     public int m;
     public int n;
@@ -16,6 +17,7 @@ class Pair {
     }
 }
 
+// point on a board
 class Point {
     public int m;
     public int n;

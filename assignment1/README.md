@@ -1,7 +1,8 @@
 # CS611-Assignment 1
 
 ## Generic Board Game
----------------------------------------------------------------------------
+
+----
 Tingzhou Yuan
 
 tzyuan15@bu.edu
@@ -9,7 +10,8 @@ tzyuan15@bu.edu
 U79759599
 
 ## Files
----------------------------------------------------------------------------
+
+----
 
 - Main.java
   
@@ -17,11 +19,11 @@ U79759599
 
 - OrderNChaos.java
 
-   OrderNChaos implmentation of Boardgame, takes care of game initialization and judging
+   OrderNChaos implmentation of `Boardgame`, takes care of game initialization and judging
 
 - TikTakToe.java
 
-   TikTakToe impl of Boardgame, takes care of game initialization and judging
+   TikTakToe impl of `Boardgame`, takes care of game initialization and judging
 
 - Boardgame.java
 
@@ -46,34 +48,75 @@ U79759599
 
 
 ## Notes
----------------------------------------------------------------------------
 
-1. <Files to be parsed should be stored in ConfigFiles, for parser class to read class>
-2. Configurable Team / Player
+----
+
+### Correctness
+
+1. Any board with m * n is allowed, as long as it's not less than default size.
+2. `Board` checks position duplicates before placing any `Move` onto the board.
+3. Game will end when board is filled, with game result specified by classes inherited from `Boardgame`.
+
+### Scalability
+
+1. Board scalability: fully supported
+
+2. Fully Configurable Team / Player, with interface. Each player can be assigned name and any desired amount of Move pieces. The way teams swap players totally depends up to the team implementaiton.
+
+### Extendability
+
+1. cell-based board games: `chess` is doable, `wordle` would require the ability to rollback, which is easily achievable as we keep track of round numbers on board moves
+2. turn based games: `card games` are easily doable, `monopoly` would need additional attributes on `Playable` interface to record player balances.
 
 ## How to compile and run
----------------------------------------------------------------------------
+
+----
 
 1. `unzip cs611 && cd cs611 && cd assignment1`
 2. `javac -d ./bin *.java`
 3. `java -cp ./bin Main`
 
 ## Input/Output Example
----------------------------------------------------------------------------
-<Place here an example of how the program runs. Include both its outputs and correctly formatted inputs. Please clearly
-mark the inputs.>
-e.g.:
-Output:
-Welcome to Tic-Tac-Toe!
-Please enter player 1's name:
-Input: Alex Output:
-Please enter player 2's name:
-Input: Bob Output:
-Please enter the size of the board:
-Input: 3 Output:
-+--+--+--+ | | | | +--+--+--+ | | | | +--+--+--+ | | | | +--+--+--+ Alex please make a move:
-Input: 1,2 Output:
-+--+--+--+ | | | | +--+--+--+ |X | | | +--+--+--+ | | | | +--+--+--+ . . . +--+--+--+ |X | | | +--+--+--+ |X |O | |
-+--+--+--+ |X |O | | +--+--+--+ Alex wins! Would you like to play again? Input: no Output:
-Thank you for playing!
-Alex won 1 time. Bob won 0 times. There were 0 stalemates.
+
+----
+
+```bash
+
+choose your game, 1 for tiktaktoe and 2 for orderNchaos
+1
+Welcome to TikTakToe...    
+---------------------------
+enter [int] [int] to resize or any string to stick to defaultPair<3,3>: 
+new m and new n must be greater or equal to original (default)
+4 4
+_ _ _ _ 
+_ _ _ _ 
+_ _ _ _ 
+_ _ _ _ 
+
+<Player[x-holder]>: input: [m] [n] (piece: X): 
+0 0
+X _ _ _
+_ _ _ _
+_ _ _ _
+_ _ _ _
+
+<Team[<Player[alice]>, <Player[bob]>, ]>: sending <Player[alice]>
+<Player[alice]>: input: [m] [n] (piece: O):
+0 1
+......
+X O _ _
+X O _ _
+X O _ _
+X _ _ _
+
+winner is <Player[x-holder]>
+enter Y to play next game:  
+N
+Summary:
+        Out of 1 rounds,
+ <Player[x-holder]> won [1] games;
+ <Team[<Player[alice]>, <Player[bob]>, ]> won [0] games; 
+Bye.
+
+```

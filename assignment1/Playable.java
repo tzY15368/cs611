@@ -48,13 +48,9 @@ abstract class Participant {
         return this.id;
     }
 
-    ;
-
     public String getName() {
         return this.name;
     }
-
-    ;
 
     public abstract String getPrintName();
 

@@ -58,6 +58,7 @@ public class OrderNChaos extends Boardgame{
             cnt += 1;
             
         }
+        // six in a row counts as win for chaos, as five in a row should happen first
         if(cnt==6){
             return ID_CHAOS;
         }else if(cnt==5){

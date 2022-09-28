@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class OrderNChaos extends Boardgame{
-
+    private final int ID_CHAOS = 1;
+    private final int ID_ORDER = 0;
     public OrderNChaos() {
         super(new Player[]{
                 new Player("Order", new HashMap<>(){{
@@ -36,11 +37,12 @@ public class OrderNChaos extends Boardgame{
         for(Move[] mv : ls){
             int res = this.check5OInARow(mv);
             if(res!=STATE_CONTINUE){
-                return res;
+                // had to hardcode this part
+                return ID_ORDER;
             }
         }
         if(!board.hasFreeSpace()){
-            return STATE_DRAW;
+            return ID_CHAOS;
         }
         return STATE_CONTINUE;
     }
@@ -54,9 +56,12 @@ public class OrderNChaos extends Boardgame{
                 cnt = 0;
             }
             cnt += 1;
-            if (cnt >= 5) {
-                return move.getPlayerno();
-            }
+            
+        }
+        if(cnt==6){
+            return ID_CHAOS;
+        }else if(cnt==5){
+            return ID_ORDER;
         }
         return STATE_CONTINUE;
     }
